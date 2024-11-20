@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PageTitle from '../components/PageTitle';
-import { Link, Form } from 'react-router-dom';
+import { Link, Form, useNavigation, useActionData } from 'react-router-dom';
 import TextField from '../components/TextField';
 import Button from '../components/Button';
+import { CircularProgress } from '../components/Progress';
+import { useSnackbar } from '../hooks/useSnackbar';
 
 const Register = () => {
+  const error = useActionData();
+  const navigration = useNavigation();
+  const { showSnackbar } = useSnackbar();
+  useEffect(() => {
+    if (error?.message) {
+      showSnackbar({
+        message: error.message,
+        type: 'error',
+        timeOut: 5000,
+      });
+    }
+  }, [error, showSnackbar]);
   return (
     <>
       <PageTitle title='Buat Akun' />
@@ -40,7 +54,6 @@ const Register = () => {
                 placeholder='Nama Lengkap'
                 required={true}
                 autoFocus={true}
-                helperText='Nama lengkap kamu'
               />
               <TextField
                 type='email'
@@ -48,7 +61,6 @@ const Register = () => {
                 label='Email Kamu'
                 placeholder='Email Kamu'
                 required={true}
-                helperText='Email kamu akan digunakan untuk login'
               />
               <TextField
                 type='password'
@@ -56,13 +68,16 @@ const Register = () => {
                 label='Password Kamu'
                 placeholder='Password Kamu'
                 required={true}
-                helperText='Password minimal 8 karakter'
               />
               <Button
                 type='submit'
-                disabled={true}
+                disabled={navigration.state === 'submitting'}
               >
-                Buat Akun
+                {navigration.state === 'submitting' ? (
+                  <CircularProgress size='small' />
+                ) : (
+                  'Daftar'
+                )}
               </Button>
             </Form>
 

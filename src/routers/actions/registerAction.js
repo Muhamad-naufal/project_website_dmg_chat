@@ -1,6 +1,7 @@
 import { redirect } from 'react-router-dom';
 import { account } from '../../lib/appwrite';
 import generateID from '../../utils/generateID';
+
 const registerAction = async ({ request }) => {
   const formData = await request.formData();
 
@@ -12,7 +13,9 @@ const registerAction = async ({ request }) => {
       formData.get('name'),
     );
   } catch (error) {
-    return new Response(error.message, { status: 400 });
+    return {
+      message: error.message,
+    };
   }
 
   try {
@@ -21,7 +24,7 @@ const registerAction = async ({ request }) => {
       formData.get('password'),
     );
   } catch (error) {
-    console.error(error);
+    console.error('Error creating session', error);
     return redirect('/login');
   }
 
