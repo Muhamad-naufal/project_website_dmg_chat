@@ -3,6 +3,9 @@ import App from '../App';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
 import registerAction from './actions/registerAction';
+import loginAction from './actions/loginAction';
+import registerLoaders from './loaders/registerLoaders';
+import loginLoaders from './loaders/loginLoaders';
 
 const router = createBrowserRouter([
   {
@@ -12,11 +15,14 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <Register />,
+    loader: registerLoaders,
     action: registerAction,
   },
   {
     path: '/login',
     element: <Login />,
+    loader: loginLoaders,
+    action: loginAction,
   },
 ]);
 

@@ -86,7 +86,7 @@ const Register = () => {
               Sudah punya akun?{' '}
               <Link
                 to='/login'
-                className='link inline-block me-1 text-light-onSurface dark:text-dark-onSurface'
+                className='link inline-block text-labelLarge ms-1 text-light-onSurface dark:text-dark-onSurface'
               >
                 Masuk
               </Link>
