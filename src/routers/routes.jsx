@@ -10,6 +10,8 @@ import ResetLink from '../pages/ResetLink';
 import resetLinkAction from './actions/resetLinkAction';
 import PasswordReset from '../pages/PasswordReset';
 import resetPasswordAction from './actions/resetPasswordAction';
+import resetLinkLoaders from './loaders/resetLinkLoaders';
+import resetPasswordLoaders from './loaders/resetPasswordLoaders';
 
 const router = createBrowserRouter([
   {
@@ -31,11 +33,13 @@ const router = createBrowserRouter([
   {
     path: '/reset-link',
     element: <ResetLink />,
+    loader: resetLinkLoaders,
     action: resetLinkAction,
   },
   {
     path: '/reset-password',
     element: <PasswordReset />,
+    loader: resetPasswordLoaders,
     action: resetPasswordAction,
   },
 ]);
