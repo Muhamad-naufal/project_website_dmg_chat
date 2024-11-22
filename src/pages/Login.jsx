@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PageTitle from '../components/PageTitle';
 import { Link, Form, useNavigation, useActionData } from 'react-router-dom';
 import TextField from '../components/TextField';
-import Button from '../components/Button';
+import { Button } from '../components/Button';
 import { CircularProgress, LinearProgress } from '../components/Progress';
 import { useSnackbar } from '../hooks/useSnackbar';
 import { AnimatePresence, motion } from 'framer-motion';

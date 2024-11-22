@@ -12,11 +12,13 @@ import PasswordReset from '../pages/PasswordReset';
 import resetPasswordAction from './actions/resetPasswordAction';
 import resetLinkLoaders from './loaders/resetLinkLoaders';
 import resetPasswordLoaders from './loaders/resetPasswordLoaders';
+import appLoader from './loaders/appLouders';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    loader: appLoader,
   },
   {
     path: '/register',
