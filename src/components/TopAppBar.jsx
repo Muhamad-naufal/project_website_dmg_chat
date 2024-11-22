@@ -14,8 +14,10 @@ import MenuItem from './MenuItem.jsx';
 import { AnimatePresence } from 'framer-motion';
 import { useToggle } from '../hooks/useToggle.js';
 import { logout } from '../utils/logout.js';
+import Logo from './Logo.jsx';
+import PropTypes from 'prop-types';
 
-const TopAppBar = () => {
+const TopAppBar = ({ toggleSidebar }) => {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const isNormalLoad = navigation.state === 'loading' && !navigation.formData;
@@ -29,18 +31,9 @@ const TopAppBar = () => {
           icon='menu'
           title='Menu'
           classes='lg:hidden'
+          onClick={toggleSidebar}
         />
-        <Link
-          to='/'
-          className='min-w-max max-w-max h-[24px] lg:hidden'
-        >
-          <img
-            width={133}
-            height={24}
-            src='/logo_tulisan.png'
-            alt=''
-          />
-        </Link>
+        <Logo classes='lg:hidden' />
       </div>
       <div className='menu-wrapper'>
         <IconButton onClick={setShowMenu}>
@@ -56,6 +49,10 @@ const TopAppBar = () => {
       <AnimatePresence>{isNormalLoad && <LinearProgress />}</AnimatePresence>
     </header>
   );
+};
+
+TopAppBar.propTypes = {
+  toggleSidebar: PropTypes.func,
 };
 
 export default TopAppBar;

@@ -6,6 +6,7 @@ import { Button } from '../components/Button';
 import { CircularProgress, LinearProgress } from '../components/Progress';
 import { useSnackbar } from '../hooks/useSnackbar';
 import { AnimatePresence, motion } from 'framer-motion';
+import Logo from '../components/Logo';
 
 const PasswordReset = () => {
   const error = useActionData();
@@ -25,18 +26,7 @@ const PasswordReset = () => {
       <PageTitle title='Password Baru' />
       <div className='relative w-screen h-dvh p-2 grid grid-cols-1 lg:grid-cols-[1fr,1.2fr] lg:gap-2'>
         <div className='flex flex-col p-4'>
-          <Link
-            to='/'
-            className='max-w-max mb-auto mx-auto lg:mx-0'
-          >
-            <img
-              src='/logo_tulisan.png'
-              alt='logo'
-              className=''
-              width={133}
-              height={24}
-            />
-          </Link>
+          <Logo classes='mb-auto mx-auto lg:mx-0' />
           <div className='flex flex-col gap-2 max-w-[480px] w-full mx-auto'>
             <h2 className='text-displaySmall font-semibold text-light-onBackground dark:text-dark-onBackground text-center'>
               Masukkan Password Baru

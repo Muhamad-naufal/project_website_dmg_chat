@@ -1,22 +1,28 @@
 import React from 'react';
 import PageTitle from './components/PageTitle';
 import TopAppBar from './components/TopAppBar';
+import Sidebar from './components/Sidebar';
+import { useToggle } from './hooks/useToggle';
 
 const App = () => {
+  const [isSidebarOpen, toggleSidebar] = useToggle();
   return (
     <>
       {/* Title Meta */}
       <PageTitle title='Chat' />
 
-      <div>
-        {/* Sidebar */}
-        <div>
+      <div className='lg:grid lg:grid-cols-[320px,1fr]'>
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+        />
+        <div className='h-dvh grid grid-rows-[max-content,minmax(0,1fr),max-content]'>
           {/* top App bar */}
-          <TopAppBar />
+          <TopAppBar toggleSidebar={toggleSidebar} />
 
           {/* Main Content */}
-          <div>
-            <div></div>
+          <div className='px-5 pb-5 flex flex-col overflow-y-auto'>
+            <div className='max-w-[840px]'>Main Content</div>
           </div>
 
           {/* Promp Field */}
