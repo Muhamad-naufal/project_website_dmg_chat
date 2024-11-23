@@ -14,7 +14,12 @@ const Conversation = () => {
     <>
       <PageTitle title={`${title}`} />
 
-      <motion.div className=''>
+      <motion.div
+        className='max-w-[700px] mx-auto !will-change-auto text-justify'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2, delay: 0.05, ease: 'easeOut' }}
+      >
         {chats.map((chat) => (
           <div key={chat.$id}>
             <UserPrompt text={chat.user_prompt} />
