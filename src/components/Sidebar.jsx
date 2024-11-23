@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const {
-    conversation: { documents: conversationData },
+    conversations: { documents: conversationData },
   } = useLoaderData() || {};
   return (
     <>

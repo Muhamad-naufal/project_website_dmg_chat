@@ -59,6 +59,26 @@ const appAction = async ({ request }) => {
   if (requestType === 'user_prompt') {
     return await userPromptAction(formData);
   }
+
+  if (requestType === 'delete_conversation') {
+    return await conversationAction(formData);
+  }
+};
+
+const conversationAction = async (formData) => {
+  const conversationId = formData.get('conversation_id');
+  const conversationTitle = formData.get('conversation_title');
+
+  try {
+    await databases.deleteDocument(
+      import.meta.env.VITE_APPWRITE_DATABASE_ID,
+      'coversations',
+      conversationId,
+    );
+    return { conversationTitle };
+  } catch (error) {
+    console.error(error.message);
+  }
 };
 
 export default appAction;

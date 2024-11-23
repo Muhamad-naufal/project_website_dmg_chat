@@ -5,6 +5,8 @@ import {
   useLoaderData,
   useNavigate,
   useNavigation,
+  useParams,
+  useSubmit,
 } from 'react-router-dom';
 import Avatar from './Avatar.jsx';
 import { avatar } from '../lib/appwrite.js';
@@ -16,13 +18,16 @@ import { useToggle } from '../hooks/useToggle.js';
 import { logout } from '../utils/logout.js';
 import Logo from './Logo.jsx';
 import PropTypes from 'prop-types';
+import { deleteConversation } from '../utils/deleteConversation.js';
 
 const TopAppBar = ({ toggleSidebar }) => {
+  const submit = useSubmit();
+  const params = useParams();
   const navigation = useNavigation();
   const navigate = useNavigate();
   const isNormalLoad = navigation.state === 'loading' && !navigation.formData;
   const [showMenu, setShowMenu] = useToggle();
-  const { user } = useLoaderData();
+  const { user, conversations } = useLoaderData();
 
   return (
     <header className='relative flex justify-between items-center h-16 px-4'>
@@ -35,6 +40,23 @@ const TopAppBar = ({ toggleSidebar }) => {
         />
         <Logo classes='lg:hidden' />
       </div>
+      {params.conversationId && (
+        <IconButton
+          icon='delete'
+          classes='ms-auto me-1 lg:hidden'
+          onClick={() => {
+            const { title } = conversations.documents.find(
+              ({ $id }) => params.conversationId === $id,
+            );
+            deleteConversation({
+              id: params.conversationId,
+              title,
+              submit,
+            });
+          }}
+        />
+      )}
+
       <div className='menu-wrapper'>
         <IconButton onClick={setShowMenu}>
           <Avatar name={user.name} />
