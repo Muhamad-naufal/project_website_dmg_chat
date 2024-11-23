@@ -1,11 +1,14 @@
 import React from 'react';
 import Logo from './Logo';
 import { ExtendedFab, IconButton } from './Button';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLoaderData } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
+  const {
+    conversation: { documents: conversationData },
+  } = useLoaderData() || {};
   return (
     <>
       <motion.div
@@ -21,7 +24,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           <ExtendedFab
             href='/'
             text='Chat Baru'
-            classes=''
+            classes='mb-4'
             onClick={toggleSidebar}
           />
           <div className='overflow-y-auto -me-2 pe-1'>
@@ -29,26 +32,31 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               Terbaru
             </p>
             <nav>
-              <div className='relative group'>
-                <NavLink
-                  to='new-chat'
-                  className='nav-link'
-                  title=''
-                  onClick={toggleSidebar}
+              {conversationData.map((item) => (
+                <div
+                  key={item.$id}
+                  className='relative group'
                 >
-                  <span className='material-symbols-rounded icon-small'>
-                    chat_bubble
-                  </span>
-                  <span className='truncate'>Percakapan Baru</span>
-                  <div className='state-layer'></div>
-                </NavLink>
-                <IconButton
-                  icon='delete'
-                  size='small'
-                  classes='absolute top-1/2 right-1.5 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 group:focus-within:opacity-100 hidden lg:grid'
-                  title='Hapus'
-                />
-              </div>
+                  <NavLink
+                    to={item.$id}
+                    className='nav-link'
+                    title={item.title}
+                    onClick={toggleSidebar}
+                  >
+                    <span className='material-symbols-rounded icon-small'>
+                      chat_bubble
+                    </span>
+                    <span className='truncate'>{item.title}</span>
+                    <div className='state-layer'></div>
+                  </NavLink>
+                  <IconButton
+                    icon='delete'
+                    size='small'
+                    classes='absolute top-1/2 right-1.5 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 group:focus-within:opacity-100 hidden lg:grid'
+                    title='Hapus'
+                  />
+                </div>
+              ))}
             </nav>
           </div>
           <div className='mt-4 h-14 px-4 grid items-center text-labelLarge text-light-onSurfaceVariant dark:text-dark-onSurfaceVariant border-t border-light-surfaceContainerHigh dark:border-dark-surfaceContainerHigh truncate'>

@@ -1,3 +1,4 @@
+import { redirect } from 'react-router-dom';
 import { getAiResponse, getConversationTitle } from '../../api/googleAi';
 import { account, databases } from '../../lib/appwrite';
 import generateID from '../../utils/generateID';
@@ -20,6 +21,7 @@ const userPromptAction = async (formData) => {
   } catch (error) {
     console.error(error.message);
   }
+
   const aiResponse = await getAiResponse(userPrompt);
   try {
     await databases.createDocument(
@@ -47,7 +49,7 @@ const userPromptAction = async (formData) => {
     console.error(error.message);
   }
 
-  return null;
+  return redirect(`/${conversation.$id}`);
 };
 
 const appAction = async ({ request }) => {
