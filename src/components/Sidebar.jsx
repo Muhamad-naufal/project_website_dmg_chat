@@ -1,14 +1,17 @@
 import React from 'react';
 import Logo from './Logo';
 import { ExtendedFab, IconButton } from './Button';
-import { NavLink, useLoaderData } from 'react-router-dom';
+import { NavLink, useLoaderData, useParams, useSubmit } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
+import { deleteConversation } from '../utils/deleteConversation';
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   const {
     conversations: { documents: conversationData },
   } = useLoaderData() || {};
+  const submit = useSubmit();
+  const { conversationId } = useParams();
   return (
     <>
       <motion.div
@@ -26,6 +29,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             text='Chat Baru'
             classes='mb-4'
             onClick={toggleSidebar}
+            disabled={!conversationId}
           />
           <div className='overflow-y-auto -me-2 pe-1'>
             <p className='text-titleSmall h-9 grid items-center px-4'>
@@ -54,6 +58,13 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                     size='small'
                     classes='absolute top-1/2 right-1.5 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 group:focus-within:opacity-100 hidden lg:grid'
                     title='Hapus'
+                    onClick={() => {
+                      deleteConversation({
+                        id: item.$id,
+                        title: item.title,
+                        submit,
+                      });
+                    }}
                   />
                 </div>
               ))}
