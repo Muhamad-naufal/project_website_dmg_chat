@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PageTitle from './components/PageTitle';
 import TopAppBar from './components/TopAppBar';
 import Sidebar from './components/Sidebar';
@@ -6,12 +6,41 @@ import { useToggle } from './hooks/useToggle';
 import Greetings from './pages/Greetings';
 import { motion } from 'framer-motion';
 import PromptField from './components/PromptField';
-import { Outlet, useNavigation, useParams } from 'react-router-dom';
+import {
+  Outlet,
+  useActionData,
+  useNavigation,
+  useParams,
+} from 'react-router-dom';
+import { useSnackbar } from './hooks/useSnackbar';
+import { usePromptPreloader } from './hooks/usePromptPreloader';
 
 const App = () => {
+  const actionData = useActionData();
+  const { showSnackbar } = useSnackbar();
   const navigation = useNavigation();
   const isNormalLoad = navigation.state === 'loading' && !navigation.formData;
   const params = useParams();
+  const chatHistoryRef = useRef();
+  const { promptPreloaderValue } = usePromptPreloader();
+
+  useEffect(() => {
+    const chatHistory = chatHistoryRef.current;
+    if (promptPreloaderValue) {
+      chatHistory.scroll({
+        top: chatHistory.scrollHeight - chatHistory.clientHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [promptPreloaderValue, chatHistoryRef]);
+
+  useEffect(() => {
+    if (actionData?.conversationTitle) {
+      showSnackbar({
+        message: `Chat yang judulnya '${actionData.conversationTitle}' udah dihapus yah 😢`,
+      });
+    }
+  }, [actionData, showSnackbar]);
 
   const [isSidebarOpen, toggleSidebar] = useToggle();
   return (
@@ -29,7 +58,10 @@ const App = () => {
           <TopAppBar toggleSidebar={toggleSidebar} />
 
           {/* Main Content */}
-          <div className='px-5 pb-5 flex flex-col overflow-y-auto'>
+          <div
+            ref={chatHistoryRef}
+            className='px-5 pb-5 flex flex-col overflow-y-auto'
+          >
             <div className='max-w-[840px] w-full mx-auto grow'>
               {isNormalLoad ? null : params.conversationId ? (
                 <Outlet />
